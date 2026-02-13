@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Keerthi ❤️</title>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',sans-serif;}
+
+body{
+height:100vh;
+overflow:hidden;
+color:#b30059;
+background:linear-gradient(-45deg,#ffc0cb,#ffd6e7,#ffb6c1,#ffe6f0);
+background-size:400% 400%;
+animation:gradientMove 12s ease infinite;
+}
+
+@keyframes gradientMove{
+0%{background-position:0% 50%;}
+50%{background-position:100% 50%;}
+100%{background-position:0% 50%;}
+}
+
+h1,h2,p{
+text-shadow:0 0 5px rgba(255,105,180,0.6);
+}
+
+/* Floating Hearts */
+.heart{
+position:fixed;
+bottom:-10px;
+color:#ff4d88;
+font-size:20px;
+animation:floatUp 6s linear infinite;
+opacity:0.8;
+}
+@keyframes floatUp{
+0%{transform:translateY(0);opacity:1;}
+100%{transform:translateY(-100vh);opacity:0;}
+}
+
+/* Pages */
+.page{
+position:absolute;
+width:100%;
+height:100vh;
+display:none;
+justify-content:center;
+align-items:center;
+flex-direction:column;
+transition:1s;
+}
+.active{display:flex;}
+
+/* Card */
+.card{
+background:rgba(255,255,255,0.6);
+backdrop-filter:blur(10px);
+padding:40px;
+border-radius:25px;
+box-shadow:0 10px 40px rgba(255,105,180,0.3);
+width:90%;
+max-width:450px;
+text-align:center;
+}
+
+input{
+width:100%;
+padding:10px;
+margin:10px 0;
+border:none;
+border-radius:10px;
+}
+
+button{
+padding:14px 30px;
+border:none;
+border-radius:30px;
+font-size:16px;
+cursor:pointer;
+margin-top:20px;
+transition:0.3s;
+background:#ff4d88;
+color:white;
+}
+
+button:hover{
+transform:scale(1.1);
+box-shadow:0 0 15px #ff99cc;
+}
+
+/* Gallery */
+#galleryPage{
+background:linear-gradient(135deg,#ffd6e7,#ffc0cb);
+}
+
+#slideContainer{
+position:relative;
+width:280px;
+max-width:600px;
+height:80vh;
+overflow:hidden;
+border-radius:20px;
+box-shadow:0 0 30px rgba(255,105,180,0.5);
+}
+
+#slideImage{
+position:absolute;
+width:auto;
+height:100%;
+object-fit:cover;
+left:100%;
+transition:1s ease;
+}
+
+.show{left:0 !important;}
+
+/* Proposal */
+#proposalPage{
+position:relative;
+overflow:hidden;
+}
+
+#bgFightVideo{
+position:absolute;
+top:0;
+left:0;
+width:100%;
+height:100%;
+object-fit:cover;
+z-index:0;
+display:none;
+}
+
+.proposal-content{
+position:relative;
+z-index:2;
+}
+
+#yesBtn{background:#00c853;}
+#noBtn{background:#ff1744;position:relative;}
+
+/* YES Overlay */
+#videoOverlay{
+position:fixed;
+top:0;left:0;
+width:100%;
+height:100%;
+background:black;
+display:none;
+justify-content:center;
+align-items:center;
+z-index:999;
+}
+
+video{
+width:100%;
+height:100%;
+object-fit:cover;
+}
+</style>
+</head>
+
+<body>
+
+<!-- Floating Hearts Script -->
+<script>
+setInterval(()=>{
+let heart=document.createElement("div");
+heart.className="heart";
+heart.innerHTML="💗";
+heart.style.left=Math.random()*100+"%";
+heart.style.fontSize=(15+Math.random()*20)+"px";
+document.body.appendChild(heart);
+setTimeout(()=>heart.remove(),6000);
+},600);
+</script>
+
+<!-- LOGIN -->
+<div id="loginPage" class="page active">
+<div class="card">
+<h2>Enter My Heart 💖</h2>
+<input type="text" placeholder="Enter your loved one’s name">
+<input type="password" placeholder="Love you Chloo(hint:Replay)">
+<button onclick="enterSite()">Login To My Heart</button>
+</div>
+</div>
+
+<!-- MESSAGE -->
+<div id="messagePage" class="page">
+<div class="card">
+<h2 id="msg1">From the moment you entered my life...</h2>
+<p id="msg2">Everything became more beautiful ✨</p>
+<p id="msg3" style="display:none;margin-top:20px;">
+Don't Cry 🥺 I Am Always Be With You ❤️
+</p>
+<button id="heartBtn" style="display:none;" onclick="goGallery()">
+Way To My Heart 💕
+</button>
+</div>
+</div>
+
+<!-- GALLERY -->
+<div id="galleryPage" class="page">
+<h2 style="margin-bottom:20px;">My Heart Filled With You❤️</h2>
+<div id="slideContainer">
+<img id="slideImage" src="1.jpg">
+</div>
+<button id="finalBtn" style="display:none;" onclick="goProposal()">
+One Last Question 💍
+</button>
+</div>
+
+<!-- PROPOSAL -->
+<div id="proposalPage" class="page">
+
+<video id="bgFightVideo" muted loop>
+<source src="no-video.mp4" type="video/mp4">
+</video>
+
+<div class="proposal-content">
+<h1>Will You Be My Valentine? 💘</h1>
+<button id="yesBtn" onclick="yesClicked()">YES 💚</button>
+<button id="noBtn">NO ❌</button>
+</div>
+
+</div>
+
+<!-- YES VIDEO OVERLAY -->
+<div id="videoOverlay">
+<video id="specialVideo" controls></video>
+</div>
+
+<audio id="bgMusic" src="bgm.mp3" loop></audio>
+
+<script>
+
+let slides=[
+"1.jpg","2.jpg",
+"3.jpg","4.jpg","5.jpg",
+"6.jpg","7.jpg","8.jpg","9.jpg","10.jpg"
+];
+
+let current=0;
+
+function showPage(id){
+document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+document.getElementById(id).classList.add("active");
+}
+
+function enterSite(){
+document.getElementById("bgMusic").play();
+showPage("messagePage");
+
+setTimeout(()=>{
+document.getElementById("msg1").style.display="none";
+document.getElementById("msg2").style.display="none";
+document.getElementById("msg3").style.display="block";
+},4000);
+
+setTimeout(()=>{
+document.getElementById("msg3").style.display="none";
+document.getElementById("heartBtn").style.display="inline-block";
+},14000);
+}
+
+function goGallery(){
+showPage("galleryPage");
+startSlide();
+}
+
+function startSlide(){
+let img=document.getElementById("slideImage");
+img.classList.add("show");
+
+let interval=setInterval(()=>{
+current++;
+if(current>=slides.length){
+clearInterval(interval);
+document.getElementById("finalBtn").style.display="inline-block";
+return;
+}
+
+img.classList.remove("show");
+setTimeout(()=>{
+img.src=slides[current];
+img.classList.add("show");
+},500);
+
+},3000);
+}
+
+function goProposal(){
+document.getElementById("bgMusic").pause();
+showPage("proposalPage");
+}
+
+let noBtn=document.getElementById("noBtn");
+let bgVideo=document.getElementById("bgFightVideo");
+
+noBtn.addEventListener("mouseover",()=>{
+noBtn.style.position="absolute";
+noBtn.style.top=Math.random()*80+"%";
+noBtn.style.left=Math.random()*80+"%";
+
+bgVideo.style.display="block";
+bgVideo.play();
+});
+
+function yesClicked(){
+let overlay=document.getElementById("videoOverlay");
+let video=document.getElementById("specialVideo");
+video.src="yes-video.mp4";
+overlay.style.display="flex";
+video.play();
+}
+
+</script>
+
+</body>
+</html>
+
+
